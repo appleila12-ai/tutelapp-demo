@@ -1,0 +1,15 @@
+# Configurazione Netlify per la demo di TutelApp (l'app è nella cartella frontend).
+# Se nelle impostazioni di Netlify imposti "Base directory = frontend",
+# viene usato frontend/netlify.toml, con lo stesso contenuto.
+[build]
+  base = "frontend"
+  command = "yarn build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
