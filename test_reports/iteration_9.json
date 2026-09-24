@@ -1,0 +1,31 @@
+{
+  "summary": "Verified Expo SDK 54→57 upgrade + vector-icons migration end-to-end. Backend: 8/8 pytest passed (test_riforma_2027.py) — /api/content 200 without 'fasi', /api/assistant 200 with Italian text. Frontend web preview: Metro bundled (1326 modules) without red screen. Ionicons font successfully loaded from CDN (document.fonts shows {family:'Ionicons', status:'loaded'}), 15 elements on home / 22 on tracker use Ionicons font-family — icons render (no tofu). All 7 acceptance flows pass: (1) Home shows TutelApp wordmark, 'Come funziona · Riforma 2027' banner, region card Liguria, IL PERCORSO card, home-start-btn, home-tracker-link. (2) Wizard /valutazione: 3 steps completable via opt-who/opt-when/opt-cert + wizard-next-btn → navigates to /risultati/{id}. (3) Results renders next-steps-section with cert-explainer-card, law104-card, invalidity-card. (4) Tracker /tracker: header with tracker-bell-btn (badge '3'), Sarzana card with Chiama/Email/Sede, timeline 4 tappe with icons, bell opens panel with tracker-notif-n1/n2/n3, tracker-edit-toggle-uvm reveals tracker-date-input-uvm. (5) /riforma header 'Come funziona' + icons, /faq + icons, /importi + icons, /contatti + icons, /patronati + icons, /territorio + icons all load without errors. Only non-blocking React Native Web deprecation warnings observed (shadow*/textShadow*), already tracked in iteration_8.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [],
+    "react_native_issues": [
+      {"component": "StyleSheet (shadow*/textShadow*)", "issue": "React Native Web logs deprecation warnings: 'shadow*' and 'textShadow*' style props are deprecated (use 'boxShadow' / 'textShadow'). Non-blocking on web. Already tracked in iteration_8. Reference: /app/frontend/app/index.tsx (trackerCard shadow* and heroImageText textShadow*)"}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_riforma_2027.py",
+    "/app/test_reports/pytest/iteration_9_riforma.xml"
+  ],
+  "action_items": [
+    "(No blocking action) SDK 57 upgrade and vector-icons migration verified. Optional cosmetic: migrate 'shadow*'/'textShadow*' style props to 'boxShadow'/'textShadow' for RN Web compatibility (already tracked)."
+  ],
+  "critical_code_review_comments": [
+    "use-icon-fonts.ts correctly loads Ionicons from CDN ONLY under Expo Go (StoreClient); on web an empty map is passed and useFonts resolves immediately — verified: on web document.fonts still reports Ionicons loaded through the @react-native-vector-icons/ionicons web autolink. Version pin (13.1.3) matches package.json.",
+    "app.json cleanly removes newArchEnabled/edgeToEdgeEnabled and adds '@react-native-vector-icons/ionicons' to plugins.",
+    "All 24 files use '@react-native-vector-icons/ionicons'; no residual '@expo/vector-icons' imports in app source (only in node_modules/expo-router types)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "seed_data_creation": "None. Reused existing Mongo content already seeded.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Public URL: EXPO_PUBLIC_BACKEND_URL from /app/frontend/.env. Reusable pytest at /app/backend/tests/test_riforma_2027.py. For icon-rendering regression, verify document.fonts contains {family:'Ionicons', status:'loaded'} and that elements have computed fontFamily containing 'ionicon'. Tracker edit test: click tracker-edit-toggle-uvm then assert tracker-date-input-uvm visible. Wizard flow: click opt-who-*, opt-when-*, opt-cert-* (opt-work-* not on step 1; appears on later step depending on branch), then wizard-next-btn 3x to reach /risultati/{id}.",
+  "rca_of_issue": "N/A — SDK upgrade and icon migration successful. Ionicons font-loading strategy is correct: bundled font resolves via @react-native-vector-icons autolink on web/native builds; Expo Go uses CDN fallback (URL pinned to package version). No red screen, no crash, no missing icons."
+}

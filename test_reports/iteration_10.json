@@ -1,0 +1,32 @@
+{
+  "summary": "Verified redesign 'palette calda + welcome/hub split + coffee removed' end-to-end. Backend: pytest 8/8 PASS on test_riforma_2027.py (GET /api/content 200, POST /api/assistant 200 with Italian text). Frontend web preview (390x844): all acceptance flows pass. (1) Welcome /: welcome-screen, welcome-wordmark ('TutelApp'), welcome-disclaimer (cuore + testo rassicurante), welcome-start-btn (ambra) tutti presenti; nessuna traccia di 'caffè'/'coffee'/home-support-box/home-coffee-btn. (2) Tap welcome-start-btn -> /hub (routing corretto). (3) Hub /hub: home-topbar, hub-back-btn, home-region-card (Liguria), home-riforma-banner ('Come funziona · Riforma 2027'), guide-steps-card (IL PERCORSO — 'Hai la diagnosi in mano: e adesso?'), home-start-btn (terracotta), home-tracker-link con home-tracker-badge, home-contatti-link, home-faq-link, home-importi-link tutti presenti; nessun coffee box. hub-back-btn riporta correttamente a / (welcome-screen visibile). (4) Wizard /valutazione: 3 step confermati (Passo 1: opt-who-* + opt-when-*; Passo 2: opt-work-*; Passo 3: opt-cert-*) -> wizard-next-btn 3x -> naviga a /risultati/{id} con next-steps-section visibile (Certificato Medico, Legge 104, Invalidità Civile). (5) Tracker /tracker: tracker-screen, tracker-bell-btn con bell-badge '3', tracker-comune-card (Sarzana) con Chiama/Email/Sede, 4 tappe timeline (richiesta, presa_carico, uvm, progetto), badge 'Completata' x2 (verde) e 'In corso' x1 (ambra); apertura pannello -> tracker-notif-n1/n2/n3 visibili; tracker-edit-toggle-uvm rivela tracker-date-input-uvm. (6) Pagine /riforma (header 'Come funziona' verificato), /faq, /importi, /contatti, /patronati, /territorio, /checklist caricano tutte senza red-screen e con contenuto. Palette calda avorio/terracotta/ambra applicata correttamente. Solo warning RN-Web non-bloccanti (shadow*/textShadow* deprecati) già tracciati in iteration_8/9.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [],
+    "react_native_issues": [
+      {"component": "StyleSheet (shadow*/textShadow*)", "issue": "RN-Web deprecation warnings: 'shadow*' e 'textShadow*' style props sono deprecati (migrare a 'boxShadow'/'textShadow'). Non-blocking. Reference: /app/frontend/app/hub.tsx trackerCard shadows, /app/frontend/app/index.tsx startBtn shadows. Già tracciato in iteration_8/9."}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_riforma_2027.py",
+    "/app/test_reports/pytest/iteration_10_riforma.xml"
+  ],
+  "action_items": [
+    "(Nessuna azione bloccante) Redesign palette calda + split welcome/hub + rimozione coffee VERIFICATI. Opzionale: migrare shadow*/textShadow* a boxShadow/textShadow (cosmetico, già tracciato).",
+    "(Pulizia opzionale, non-bloccante) In /app/frontend/app/hub.tsx sono rimaste alcune StyleSheet keys inutilizzate dopo la rimozione del box caffè (supportBox, supportRow, supportEmoji, supportTitle, supportBody, coffeeBtn, coffeeBtnText). Non impatta il rendering ma può essere ripulito."
+  ],
+  "critical_code_review_comments": [
+    "index.tsx (Welcome) è minimale e coerente: SafeAreaView, hero + BrandShield + Wordmark, disclaimer card, CTA fissa in bottom con paddingBottom=insets.bottom+md, palette avorio/ambra applicata.",
+    "hub.tsx: hub-back-btn usa router.back() correttamente; deep-link diretto a /hub farebbe fallback a /? Verificato: torna a welcome. GuideStepsCard renderizza data-testid='guide-steps-card' (compatibile).",
+    "Nessun riferimento a Buy-Me-a-Coffee nel testo pagina (verificato via document.innerText scan)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "seed_data_creation": "Nessuna. Riutilizzato content già seedato.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Public URL: EXPO_PUBLIC_BACKEND_URL da /app/frontend/.env. Wizard flow corretto: Passo 1 richiede SIA opt-who-* che opt-when-* prima che wizard-next-btn diventi funzionale; Passo 2 = opt-work-*; Passo 3 = opt-cert-*. Home è stata SPLIT: / = welcome minimale (welcome-*), /hub = tutta la vecchia home (home-*). Coffee box completamente rimosso (nessun home-support-box né home-coffee-btn). Palette calda (#EDE6D8 bg, #FBF7EF card, #C1602F brand terracotta, #E3A94A accent ambra) applicata tramite /app/frontend/src/theme.ts.",
+  "rca_of_issue": "N/A — Riorganizzazione UX (welcome/hub) + rimozione coffee + nuova palette calda tutte verificate senza regressioni."
+}

@@ -1,0 +1,31 @@
+{
+  "summary": "Both refactor (Riforma 2027) and bugfix (removed react-native-keyboard-controller) verified end-to-end. Backend: 8/8 pytest passed — /api/content returns 200 with 'riforma' block WITHOUT 'fasi' and intro containing 'in tutta Italia dal 2027'; /api/assistant returns valid text via EMERGENT_LLM_KEY. Frontend: app loads on Expo web (no white screen / crash), all 7 acceptance flows pass — home banner 'Come funziona · Riforma 2027' + tagline 'Riforma della disabilità 2027' present, /riforma header 'Come funziona' with cosa-cambia + salvaguardia and NO provincia input, wizard 3 steps completable with inline cert warning and no provincia/riforma-note, /risultati/{id} shows next-steps cards (cert-explainer, law104, invalidity) and NO deadline card / iter-2027-banner, /tracker shows bell + Sarzana, /faq and /importi load with content. Only non-blocking React Native Web deprecation warnings (shadow*/textShadow*) observed in console.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [],
+    "react_native_issues": [
+      {"component": "StyleSheet (shadow*/textShadow*)", "issue": "React Native Web logs deprecation warnings: 'shadow*' and 'textShadow*' style props are deprecated (use 'boxShadow' / 'textShadow'). Non-blocking on web. Sources include index.tsx trackerCard (shadow*) and heroImageText (textShadow*). Reference: /app/frontend/app/index.tsx:906-911 and :788-790"}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_riforma_2027.py",
+    "/app/test_reports/pytest/riforma_2027_results.xml"
+  ],
+  "action_items": [
+    "(Cosmetic) Migrate 'shadow*'/'textShadow*' style props to 'boxShadow'/'textShadow' for React Native Web compatibility to silence deprecation warnings.",
+    "(Cleanup, non-blocking) Remove unused StyleSheet keys left over from provincia/riforma-transition (riformaNote*, provCard/provInput/provEsito* in valutazione.tsx; card/searchRow/esitoBox in riforma.tsx) — not causing runtime issues but noted in the review context."
+  ],
+  "critical_code_review_comments": [
+    "Backend server.py mounts routers and CORS middleware AFTER app.include_router — CORS still applied because add_middleware wraps the app but order-wise it is fine for FastAPI; no functional impact observed.",
+    "app_content.py APP_CONTENT_SEED is idempotently inserted but existing docs are never migrated by code — the request note mentions Mongo doc was already migrated manually, verified via GET /api/content."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "seed_data_creation": "No seed data created; test uses live Mongo app_content already migrated.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Public URL: EXPO_PUBLIC_BACKEND_URL from /app/frontend/.env. Reusable pytest at /app/backend/tests/test_riforma_2027.py verifies GET /api/content (no 'fasi', intro '...in tutta Italia dal 2027') and POST /api/assistant. Frontend flow test in this iteration walks home → /riforma → wizard 3 steps → /risultati/{id} → /tracker → /faq → /importi asserting presence/absence of key testIDs (riforma-provincia-input, wizard-prov-input, wizard-riforma-note, results-deadline, iter-2027-banner must be absent).",
+  "rca_of_issue": "N/A — both interventions verified. Bugfix (removed react-native-keyboard-controller) confirmed: Expo web renders the app without red-screen and KeyboardAvoidingView native is used in valutazione.tsx. Refactor confirmed: server content has no 'fasi', UI no longer exposes provincia/verifica/DeadlineCard/iter-2027 elements."
+}
