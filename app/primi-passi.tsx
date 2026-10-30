@@ -13,6 +13,7 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { useRouter } from "expo-router";
 import Ionicons from "@react-native-vector-icons/ionicons";
 
+import { FirstStepCard } from "@/src/components/FirstStepCard";
 import { SezioniBar } from "@/src/components/SezioniBar";
 import { colors, fonts, radius, spacing, topics } from "@/src/theme";
 import { comune } from "@/src/config/comune";
@@ -89,6 +90,7 @@ export default function PrimiPassiScreen() {
         contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + spacing.xxl }]}
         showsVerticalScrollIndicator={false}
       >
+        <FirstStepCard />
         <View testID="home-primi-passi">
           {PRIMI_PASSI.map((p) => {
             const open = openPasso === p.id;
@@ -107,6 +109,7 @@ export default function PrimiPassiScreen() {
                   style={styles.passoHead}
                   accessibilityRole="button"
                   accessibilityLabel={p.title}
+                  accessibilityState={!("route" in p) ? { expanded: open } : undefined}
                   testID={`home-passo-toggle-${p.id}`}
                 >
                   <View style={[styles.passoIcon, { backgroundColor: p.color.soft }]}>

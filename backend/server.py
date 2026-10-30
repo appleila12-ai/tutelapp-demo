@@ -6,7 +6,7 @@ import os
 import logging
 import secrets
 from pathlib import Path
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Any, Optional
 import uuid
 from datetime import datetime, timezone
@@ -46,7 +46,7 @@ class ReportOut(BaseModel):
 
 
 class AssistantIn(BaseModel):
-    question: str
+    question: str = Field(max_length=2000)
     context: Optional[dict] = None
 
 
@@ -97,23 +97,8 @@ async def get_shared_report(share_token: str):
 
 
 # ---------- AI Assistant ----------
-SYSTEM_PROMPT = (
-    "Sei l'assistente esperto di TutelApp, un'app italiana che aiuta i cittadini "
-    "a orientarsi tra Legge 104/1992 e Invalidità Civile.\n\n"
-    "Regole:\n"
-    "1. Rispondi SEMPRE in italiano, con tono empatico, chiaro e diretto.\n"
-    "2. Fonda ogni risposta sulla normativa vigente (L. 104/1992, L. 68/1999, art. 42 D.Lgs. 151/2001, "
-    "D.Lgs. 105/2022, D.Lgs. 62/2024 — Riforma della disabilità in vigore in tutta Italia, procedure INPS aggiornate).\n"
-    "3. Ricorda: dal D.Lgs. 105/2022 il convivente di fatto (L. 76/2016, convivenza registrata all'anagrafe) "
-    "è equiparato al coniuge e all'unito civilmente per i permessi art. 33 e il congedo straordinario.\n"
-    "4. Sii SINTETICO: max 6 frasi, vai al punto. Se serve elenca 2-3 passi pratici.\n"
-    "5. Se la domanda è troppo specifica per rispondere senza dati clinici, indica cosa chiedere all'INPS o ai Servizi Sociali del Comune.\n"
-    "6. Non dare mai indicazioni mediche. Solo procedurali e legali.\n"
-    "7. Non inventare cifre né date. Se non sei certo di un importo, scrivi 'consulta l'INPS'.\n"
-    "8. Se l'utente è inoccupato o pensionato, NON parlare di permessi lavorativi: orienta su prestazioni "
-    "economiche (assegno mensile, pensione di inabilità, indennità di accompagnamento) ed esenzioni.\n"
-    "9. Chiudi sempre con una frase incoraggiante e con l'invito a rivolgersi all'INPS o ai Servizi Sociali del Comune per la conferma."
-)
+from assistant_policy import build_system_prompt, user_message
+
 
 
 @api_router.post("/assistant", response_model=AssistantOut)
@@ -124,39 +109,21 @@ async def assistant(payload: AssistantIn):
     if not question:
         raise HTTPException(status_code=400, detail="Domanda vuota")
 
-    context_msg = ""
-    if payload.context:
-        who = payload.context.get("who")
-        work = payload.context.get("work")
-        cert = payload.context.get("cert")
-        when = payload.context.get("when")
-        parts = []
-        if who:
-            parts.append(f"chi ha ricevuto la diagnosi: {who}")
-        if when:
-            parts.append(f"quando: {when}")
-        if work:
-            parts.append(f"situazione lavorativa: {work}")
-        if cert:
-            parts.append(f"certificato INPS: {cert}")
-        if parts:
-            context_msg = "\n\n[Contesto utente] " + "; ".join(parts) + "."
-
     session_id = f"salutenav-{uuid.uuid4()}"
     chat = LlmChat(
         api_key=EMERGENT_LLM_KEY,
         session_id=session_id,
-        system_message=SYSTEM_PROMPT,
+        system_message=build_system_prompt(datetime.now(timezone.utc).date()),
     ).with_model("anthropic", "claude-sonnet-4-6")
 
     try:
         response: Any = await chat.send_message(
-            UserMessage(text=question + context_msg)
+            UserMessage(text=user_message(question, payload.context))
         )
         text = str(response).strip() if response else ""
-    except Exception as e:
-        logging.exception("assistant call failed")
-        raise HTTPException(status_code=502, detail=f"Errore assistente: {e}")
+    except Exception:
+        logging.error("assistant provider call failed")
+        raise HTTPException(status_code=502, detail="Assistente temporaneamente non disponibile")
 
     if not text:
         text = (

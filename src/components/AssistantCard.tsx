@@ -3,7 +3,6 @@
 import { useState } from "react";
 import {
   ActivityIndicator,
-  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -19,7 +18,14 @@ const SUGGESTIONS_WORKER = [
   "Mio padre vive in un'altra regione, ho diritto ai permessi?",
   "Posso rifiutare il trasferimento di sede?",
   "Come si richiede il congedo straordinario di 2 anni?",
-  "Che percentuale di invalidità serve per l'accompagnamento?",
+  "Ho ricevuto una diagnosi: da dove posso iniziare?",
+];
+
+const SUGGESTIONS_GENERAL = [
+  "Ho appena ricevuto una diagnosi e non so cosa fare.",
+  "Quali domande posso preparare per il medico?",
+  "Come posso orientarmi senza caricare referti?",
+  "Vorrei capire il progetto di vita: da dove inizio?",
 ];
 
 const SUGGESTIONS_NO_WORK = [
@@ -35,8 +41,8 @@ export function AssistantCard({ answers }: { answers?: Answers }) {
   const [answer, setAnswer] = useState<string | null>(null);
 
   const suggestions =
-    answers && senzaContratto(answers.work)
-      ? SUGGESTIONS_NO_WORK
+    !answers ? SUGGESTIONS_GENERAL
+      : senzaContratto(answers.work) ? SUGGESTIONS_NO_WORK
       : SUGGESTIONS_WORKER;
 
   const handleAsk = async (q: string) => {
@@ -48,7 +54,7 @@ export function AssistantCard({ answers }: { answers?: Answers }) {
       const a = await askAssistant(finalQ, answers);
       setAnswer(a);
     } catch (e) {
-      console.warn(e);
+
       setAnswer(
         "Al momento non riesco a rispondere. Riprova tra qualche minuto o contatta i Servizi Sociali del Comune.",
       );
@@ -64,12 +70,16 @@ export function AssistantCard({ answers }: { answers?: Answers }) {
           <Ionicons name="chatbubbles-outline" size={22} color={colors.brandPrimary} />
         </View>
         <View style={styles.flex}>
-          <Text style={styles.aiTitle}>Fai una domanda alla Legge 104</Text>
+          <Text style={styles.aiTitle}>Un passo alla volta, con TutelApp</Text>
           <Text style={styles.aiSub}>
-            Risposta immediata basata sulla normativa vigente.
+            Assistente digitale per orientarti. Le procedure vanno confermate con le fonti ufficiali.
           </Text>
         </View>
       </View>
+
+      <Text style={styles.aiSub}>
+        Non servono referti: evita nomi, codici fiscali e dettagli clinici. Ogni domanda è indipendente; l’assistente non conserva il filo della conversazione.
+      </Text>
 
       <View style={styles.aiInputWrap}>
         <TextInput
@@ -79,6 +89,7 @@ export function AssistantCard({ answers }: { answers?: Answers }) {
           value={question}
           onChangeText={setQuestion}
           multiline
+          maxLength={2000}
           testID="assistant-input"
           accessibilityLabel="Domanda per l'assistente"
         />
@@ -89,6 +100,9 @@ export function AssistantCard({ answers }: { answers?: Answers }) {
         {suggestions.map((s, idx) => (
           <Pressable
             key={s}
+            accessibilityRole="button"
+            disabled={askLoading}
+            accessibilityState={{ disabled: askLoading }}
             onPress={() => {
               setQuestion(s);
               handleAsk(s);
@@ -129,7 +143,7 @@ export function AssistantCard({ answers }: { answers?: Answers }) {
       </Pressable>
 
       {answer && (
-        <View style={styles.aiAnswerCard} testID="assistant-answer">
+        <View style={styles.aiAnswerCard} testID="assistant-answer" accessibilityLiveRegion="polite">
           <View style={styles.aiAnswerHeader}>
             <Ionicons name="sparkles-outline" size={14} color={colors.brandPrimary} />
             <Text style={styles.aiAnswerLabel}>Risposta</Text>
@@ -184,7 +198,7 @@ const styles = StyleSheet.create({
     color: colors.onSurface,
     padding: 0,
     minHeight: 48,
-    ...Platform.select({ web: { outlineStyle: "none" } as any, default: {} }),
+
   },
   aiSuggLabel: {
     fontSize: 11,
