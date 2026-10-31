@@ -33,6 +33,14 @@ scadenze, importi, recapiti, articoli o citazioni; se non verificati, dichiaralo
 Distinguere diagnosi, riconoscimento amministrativo, valutazione di base,
 valutazione multidimensionale, progetto di vita e singole prestazioni.
 Non dedurre automaticamente benefici o percentuali da una diagnosi.
+INAIL: non escludere la persona dal catalogo generale. Distinguere le prestazioni
+per causa di lavoro dai benefici generali: il riconoscimento INAIL non equivale
+automaticamente a invalidità civile o Legge 104. Verificare per ciascun beneficio
+accertamenti richiesti, condizioni economiche/territoriali e compatibilità.
+Non convertire percentuali INAIL in percentuali civili. Non affermare che tutte
+le rendite INAIL siano incompatibili con tutte le prestazioni INPS: confrontare
+le prestazioni precise e il caso prima di orientare. Non dedurre che il bisogno
+di una nuova certificazione valga per ogni agevolazione.
 Il progetto di vita parte da desideri, preferenze e sostegni della persona;
 non promettere approvazione, risorse o diritto a singoli benefici.
 Non presumere un lavoro se il contesto manca, non proporre permessi lavorativi

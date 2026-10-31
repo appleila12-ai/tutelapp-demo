@@ -32,6 +32,22 @@ const MOMENTI: { id: Exclude<Momento, null>; label: string }[] = [
 // Le 4 sezioni principali — raggiungibili dopo la domanda
 const SEZIONI = [
   {
+    id: "inail",
+    icon: "briefcase-outline" as const,
+    title: "Invalidità INAIL: diritti e agevolazioni",
+    sub: "Prestazioni e altri benefici: cosa verificare",
+    route: "/inail",
+    color: topics.lavoro,
+  },
+  {
+    id: "benefici",
+    icon: "list-outline" as const,
+    title: "Catalogo diritti e agevolazioni",
+    sub: "Schede comuni, con requisiti distinti",
+    route: "/benefici",
+    color: topics.percorso,
+  },
+  {
     id: "progetto",
     icon: "sparkles-outline" as const,
     title: "Il mio Progetto di Vita",
@@ -286,7 +302,7 @@ export default function Hub() {
             <View style={styles.flex}>
               <Text style={styles.accountRowTitle}>I tuoi dati restano tuoi</Text>
               <Text style={styles.accountRowSub}>
-                Nessun account: tutto resta salvato solo su questo dispositivo
+                Nessun account obbligatorio. Per le funzioni remote verifica quali dati vengono inviati prima di usarle.
               </Text>
             </View>
           </View>
@@ -311,13 +327,14 @@ export default function Hub() {
           </Pressable>
           {guidaOpen && (
             <Text style={styles.guidaText} testID="hub-guida-text">
-              Questa guida copre invalidità civile, cecità e sordità civile e
-              Legge 104, ora unificate nello stesso accertamento INPS
-              (Valutazione di Base). Se la tua condizione deriva da un
-              infortunio sul lavoro o una malattia professionale, il percorso è
-              gestito da INAIL, non da INPS. Se sei un dipendente pubblico e la
-              tua invalidità è per causa di servizio, il percorso è diverso e va
-              seguito con il tuo ente di appartenenza.
+              Puoi orientarti tra invalidità civile, Legge 104 e tutele INAIL.
+              Per infortuni sul lavoro e malattie professionali, INAIL gestisce
+              le proprie prestazioni. Questo non esclude altri benefici: ogni
+              scheda indica quali requisiti e accertamenti verificare. Il
+              riconoscimento INAIL non equivale automaticamente a invalidità
+              civile o Legge 104. Le procedure della riforma dipendono dalla
+              data e dal territorio. Per la causa di servizio, verifica il
+              percorso con il tuo ente di appartenenza.
             </Text>
           )}
         </View>

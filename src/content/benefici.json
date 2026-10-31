@@ -1,0 +1,261 @@
+{
+  "version": 1,
+  "checkedAt": "2026-10-31",
+  "scope": "Italia; requisiti e procedure locali da verificare",
+  "notice": "Il riconoscimento INAIL può aprire a più tutele, ma non dà automaticamente diritto a tutti i benefici. Queste schede orientano: non certificano la spettanza.",
+  "sources": {
+    "inail": {
+      "label": "INAIL · Prestazioni",
+      "url": "https://www.inail.it/portale/assicurazione/it/lassicurazione-inail/quali-sono-le-prestazioni-di-inail.html"
+    },
+    "inail-servizi": {
+      "label": "INAIL · Prestazioni sanitarie e socio-sanitarie",
+      "url": "https://www.inail.it/portale/assicurazione/it/lassicurazione-inail/quali-sono-le-prestazioni-di-inail/prestazioni-sanitarie-e-socio-sanitarie.html"
+    },
+    "lavoro": {
+      "label": "Ministero del Lavoro · Collocamento mirato",
+      "url": "https://www.cliclavoro.gov.it/focus-on/tematiche/lavoratori-con-disabilita/inserimento-e-collocamento-mirato?language_content_entity=it"
+    },
+    "permessi": {
+      "label": "INPS · Permessi Legge 104",
+      "url": "https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.50098.indennit-per-permessi-fruiti-dai-lavoratori-per-assistere-familiari-disabili-in-situazione-di-gravit-o-fruiti-dai-lavoratori-disabili.html"
+    },
+    "fisco": {
+      "label": "Agenzia delle Entrate · Guida disabilità (edizione gennaio 2022)",
+      "url": "https://www1.agenziaentrate.gov.it/web_app_entrate/agevolazioni_disabilita.html"
+    },
+    "spese": {
+      "label": "Agenzia delle Entrate · Spese sanitarie",
+      "url": "https://www1.agenziaentrate.gov.it/web_app_entrate/spese_sanitarie.html"
+    },
+    "contrassegno": {
+      "label": "ACI · Contrassegno persone con disabilità",
+      "url": "https://aci.gov.it/approfondimento/disabilita-e-diritto-alla-mobilita/contrassegno-disabili/"
+    },
+    "esenzione": {
+      "label": "Ministero della Salute · Esenzioni per invalidità",
+      "url": "https://www.salute.gov.it/new/it/tema/esenzioni-dal-ticket/esenzioni-invalidita/"
+    },
+    "adi": {
+      "label": "Ministero del Lavoro · Assegno di inclusione",
+      "url": "https://lavoro.gov.it/temi-e-priorita/decreto-lavoro/Pagine/assegno-di-inclusione"
+    },
+    "accompagnamento": {
+      "label": "INPS · Indennità di accompagnamento",
+      "url": "https://www.inps.it/it/it/dettaglio-approfondimento.schede-informative.indennit-di-accompagnamento-agli-invalidi-civili.html"
+    }
+  },
+  "benefits": [
+    {
+      "id": "prestazioni-inail",
+      "title": "Prestazioni economiche INAIL",
+      "description": "Prestazioni legate a infortuni sul lavoro e malattie professionali, secondo le condizioni previste.",
+      "checks": [
+        "Requisiti INAIL"
+      ],
+      "nextStep": "Chiedi alla sede INAIL quale prestazione corrisponde al tuo riconoscimento e quali verifiche mancano.",
+      "sourceIds": [
+        "inail"
+      ],
+      "category": "lavoro",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "cure-ausili-inail",
+      "title": "Cure, riabilitazione, protesi e ausili INAIL",
+      "description": "Servizi sanitari e interventi per recupero funzionale e autonomia, secondo il percorso previsto.",
+      "checks": [
+        "Requisiti INAIL"
+      ],
+      "nextStep": "Chiedi al referente INAIL quali interventi sono valutabili per il tuo bisogno.",
+      "sourceIds": [
+        "inail-servizi"
+      ],
+      "category": "salute",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "reinserimento-inail",
+      "title": "Reinserimento lavorativo INAIL",
+      "description": "Interventi per sostenere il ritorno o l’integrazione al lavoro; non equivalgono a un bonus automatico.",
+      "checks": [
+        "Requisiti INAIL"
+      ],
+      "nextStep": "Chiedi al servizio INAIL come avviare la valutazione di un progetto lavorativo.",
+      "sourceIds": [
+        "inail-servizi"
+      ],
+      "category": "lavoro",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "collocamento-mirato",
+      "title": "Collocamento mirato · Legge 68/1999",
+      "description": "Gli invalidi del lavoro con grado superiore al 33%, accertato INAIL, rientrano tra i destinatari. Restano da verificare le condizioni di iscrizione.",
+      "checks": [
+        "Requisiti INAIL",
+        "Servizio territoriale"
+      ],
+      "nextStep": "Contatta il collocamento mirato del Centro per l’impiego per i requisiti e la documentazione del tuo caso.",
+      "sourceIds": [
+        "lavoro"
+      ],
+      "category": "lavoro",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "permessi-104",
+      "title": "Permessi lavorativi · Legge 104",
+      "description": "Il riconoscimento INAIL da solo non sostituisce quello richiesto per i permessi della Legge 104.",
+      "checks": [
+        "Altro accertamento",
+        "Requisiti lavorativi"
+      ],
+      "nextStep": "Verifica il riconoscimento richiesto e le condizioni lavorative; per il settore pubblico rivolgiti al datore di lavoro.",
+      "sourceIds": [
+        "permessi"
+      ],
+      "category": "lavoro",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "veicoli",
+      "title": "Agevolazioni fiscali per veicoli",
+      "description": "Servono le specifiche condizioni sanitarie, documentali e fiscali: la percentuale INAIL da sola non basta.",
+      "checks": [
+        "Condizioni sanitarie e fiscali"
+      ],
+      "nextStep": "Prima dell’acquisto verifica con Agenzia delle Entrate o assistenza fiscale la certificazione e l’eventuale adattamento richiesto.",
+      "sourceIds": [
+        "fisco"
+      ],
+      "category": "mobilita",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "spese-ausili",
+      "title": "Spese sanitarie e ausili: detrazioni e deduzioni",
+      "description": "Il tipo di spesa e la certificazione determinano il trattamento fiscale; il riconoscimento per invalidità del lavoro può essere rilevante.",
+      "checks": [
+        "Condizioni sanitarie e fiscali"
+      ],
+      "nextStep": "Fai verificare la singola spesa e i documenti prima di applicare detrazioni o deduzioni.",
+      "sourceIds": [
+        "spese",
+        "fisco"
+      ],
+      "category": "salute",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "contrassegno",
+      "title": "Contrassegno persone con disabilità",
+      "description": "Dipende dalla condizione di mobilità o cecità e dalla certificazione richiesta, non dalla sola percentuale INAIL.",
+      "checks": [
+        "Certificazione specifica",
+        "Servizio territoriale"
+      ],
+      "nextStep": "Verifica con Comune e medicina legale ASL il documento necessario. Non equivale al diritto alle agevolazioni auto.",
+      "sourceIds": [
+        "contrassegno",
+        "fisco"
+      ],
+      "category": "mobilita",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "ticket",
+      "title": "Esenzione ticket sanitario",
+      "description": "Sono previste categorie per invalidi del lavoro: il codice e le prestazioni esenti dipendono dal riconoscimento. I ticket sui farmaci richiedono una verifica regionale distinta.",
+      "checks": [
+        "Requisiti INAIL",
+        "Servizio territoriale"
+      ],
+      "nextStep": "Chiedi alla ASL quale attestato di esenzione e quale ambito di prestazioni si applicano al tuo caso.",
+      "sourceIds": [
+        "esenzione"
+      ],
+      "category": "salute",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "adi",
+      "title": "Assegno di inclusione · ADI",
+      "description": "È una misura del nucleo familiare. Vanno verificati la disabilità ai fini ISEE e tutti i requisiti economici, di residenza e gli altri previsti.",
+      "checks": [
+        "Requisiti economici e familiari",
+        "Compatibilità da verificare"
+      ],
+      "nextStep": "Chiedi a INPS o patronato di verificare il nucleo e l’effetto delle prestazioni già percepite; non basta una qualsiasi percentuale INAIL.",
+      "sourceIds": [
+        "adi"
+      ],
+      "category": "economia",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "accompagnamento",
+      "title": "Indennità di accompagnamento",
+      "description": "Occorre uno specifico accertamento. INPS segnala incompatibilità con analoghe prestazioni per causa di lavoro e possibilità di opzione per quella più favorevole.",
+      "checks": [
+        "Altro accertamento",
+        "Compatibilità da verificare"
+      ],
+      "nextStep": "Fai confrontare le prestazioni effettive da INPS, INAIL o patronato. Non tutte le rendite INAIL vanno considerate automaticamente incompatibili.",
+      "sourceIds": [
+        "accompagnamento"
+      ],
+      "category": "economia",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    },
+    {
+      "id": "contributi-locali",
+      "title": "Bonus e contributi regionali o comunali",
+      "description": "Le opportunità dipendono dal territorio e dal bando aperto: non è indicato qui alcun contributo già verificato per il tuo Comune.",
+      "checks": [
+        "Requisiti economici o territoriali",
+        "Bando da verificare"
+      ],
+      "nextStep": "Consulta lo sportello sociale o il sito ufficiale di Comune e Regione; verifica destinatari, scadenza e cumulabilità del singolo bando.",
+      "sourceIds": [],
+      "category": "territorio",
+      "paths": [
+        "inail"
+      ],
+      "eligibility": "da_verificare"
+    }
+  ]
+}
