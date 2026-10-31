@@ -37,3 +37,12 @@ Questa mappa è ricavata dal codice disponibile di tutelapp-demo. Non certifica 
 La presenza di una schermata o di una voce di menu non equivale alla funzione operativa. La parità completa richiede recupero dei moduli originali compatibili, build e prova dei flussi su una versione privata prima del rilascio. Non rimuovere una funzione solo perché non riprodotta nell’anteprima; segnalarla come mancante fino al collaudo.
 
 Le funzioni remote devono restare facoltative per i cittadini e richiedono informazioni chiare sui dati trasmessi. La protezione dell’area operatori è separata e non obbliga il cittadino a creare un account.
+
+
+## Accesso semplice: requisito centrale
+
+Il box iniziale con nome facoltativo e domande facilitate è fondamentale. Dopo la scelta del Comune, presentare una domanda alla volta: nome o soprannome facoltativo, per chi si cerca aiuto, bisogno attuale. Il nome resta soltanto nello stato della schermata; non associarlo a statistiche, profili, report o richieste AI.
+
+Limitare l’intestazione a identità del servizio e Comune. Non accumulare badge, introduzioni, immagine grande, invito d’ingresso e liste di schede prima della prima domanda. Usare testo leggibile, spazi, pulsanti ampi con etichette esplicite, ritorno al passo precedente e possibilità di continuare senza nome.
+
+Conservare le funzioni esistenti, raggiungibili da “Tutte le funzioni”, evitando di mostrarle tutte nel primo ingresso. L’anteprima mostra tre voci di navigazione: Inizio, Tutte le funzioni, Aiuto. Questo è un obiettivo di usabilità da collaudare anche con persone con diverse esigenze; non una certificazione di accessibilità.

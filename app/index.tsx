@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Linking,
   Pressable,
@@ -11,8 +12,7 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { Redirect, useRouter } from "expo-router";
 import Ionicons from "@react-native-vector-icons/ionicons";
 
-import { Wordmark } from "@/src/components/Brand";
-import { MonoImage } from "@/src/components/MonoImage";
+import { WelcomeGuide } from "@/src/components/WelcomeGuide";
 import { ComuneLogo } from "@/src/components/ComuneLogo";
 import { PaeseCard } from "@/src/components/PaeseCard";
 import { comune, comuneScelto } from "@/src/config/comune";
@@ -102,6 +102,7 @@ function HomeDelComune() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const t = comune.theme;
+  const [showAll, setShowAll] = useState(false);
 
   return (
     <SafeAreaView
@@ -119,7 +120,7 @@ function HomeDelComune() {
       >
         {/* Intestazione istituzionale: stemma/logo del Comune */}
         <View style={styles.institutionHeader}>
-          <ComuneLogo size={comune.logo ? 72 : 40} />
+          <ComuneLogo size={40} />
           <View style={styles.flex}>
             <Text style={[styles.institutionEyebrow, { color: t.warmDark }]}>
               {comune.dimostrativo
@@ -133,7 +134,7 @@ function HomeDelComune() {
             </Text>
           </View>
         </View>
-        {comune.paesi && comune.paesi.length > 0 && (
+        {showAll && comune.paesi && comune.paesi.length > 0 && (
           <Text style={styles.aderenti} testID="comune-home-aderenti">
             {comune.paesi.map((p) => p.nome).join(" · ")}
           </Text>
@@ -153,54 +154,20 @@ function HomeDelComune() {
 
         <View style={styles.divider} />
 
-        {/* Brand + accoglienza */}
-        <View style={styles.brandBlock}>
-          <Wordmark size="md" showLogo={true} logoVariant="soft" />
-          <Text style={styles.kicker}>
-            {comune.dimostrativo
-              ? `ESEMPIO PER ${comune.nome.toUpperCase()}`
-              : `IN COLLABORAZIONE CON ${comune.nome.toUpperCase()}`}
-          </Text>
-          <Text style={styles.title}>
-            Non devi orientarti da solo.
-          </Text>
-          <Text style={styles.lead}>
-            TutelApp ti accompagna nei passaggi da conoscere dopo una diagnosi
-            o quando devi orientarti nel percorso della disabilità.
-          </Text>
-        </View>
-
-        {/* Immagine di accoglienza (prima era in una schermata a parte) */}
-        <MonoImage
-          source={require("../assets/images/brand/hero.jpg")}
-          height={150}
-          radius={radius.lg}
-          style={styles.heroImage}
-        />
-
-        {/* CTA principale */}
+        <WelcomeGuide />
         <Pressable
-          onPress={() => router.push("/hub")}
-          style={({ pressed }) => [
-            styles.primaryCta,
-            { backgroundColor: t.warm },
-            pressed && styles.pressed,
-          ]}
+          onPress={() => setShowAll((value) => !value)}
+          style={styles.switchLink}
           accessibilityRole="button"
-          accessibilityLabel="Entra in TutelApp"
-          testID="comune-enter-app"
+          accessibilityState={{ expanded: showAll }}
+          testID="home-all-functions"
         >
-          <View style={styles.ctaIcon}>
-            <Ionicons name="arrow-forward" size={20} color={colors.onSurface} />
-          </View>
-          <View style={styles.flex}>
-            <Text style={styles.primaryCtaTitle}>Entra in TutelApp</Text>
-            <Text style={styles.primaryCtaSub}>
-              Inizia dal punto in cui ti trovi
-            </Text>
-          </View>
+          <Text style={styles.primaryCtaTitle}>{showAll ? "Chiudi tutte le funzioni" : "Tutte le funzioni"}</Text>
         </Pressable>
-
+        <Pressable onPress={() => router.push("/contatti")} style={styles.switchLink} accessibilityRole="button">
+          <Text style={styles.switchText}>Ho bisogno di aiuto: punti di supporto</Text>
+        </Pressable>
+        {showAll && <View>
         {/* Cosa trovi */}
         <Text style={styles.sectionLabel}>COSA PUOI FARE</Text>
         <View style={styles.features}>
@@ -315,11 +282,11 @@ function HomeDelComune() {
           </Pressable>
         </View>
 
+        </View>}
+
         <Text style={styles.footer}>
           Informazioni di orientamento · Verifica sempre le procedure sui canali ufficiali degli enti competenti.
-          {HA_BACKEND
-            ? `\nPer aiutare ${comune.soggetto.toLowerCase()} a migliorare i servizi, TutelApp conta in forma anonima quali sezioni vengono usate: nessun dato personale.`
-            : ""}
+
         </Text>
 
         <Pressable
