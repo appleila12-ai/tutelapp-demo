@@ -39,10 +39,21 @@ La presenza di una schermata o di una voce di menu non equivale alla funzione op
 Le funzioni remote devono restare facoltative per i cittadini e richiedono informazioni chiare sui dati trasmessi. La protezione dell’area operatori è separata e non obbliga il cittadino a creare un account.
 
 
-## Accesso semplice: requisito centrale
+## Persona, Comune e accessibilità: requisiti centrali
 
-Il box iniziale con nome facoltativo e domande facilitate è fondamentale. Dopo la scelta del Comune, presentare una domanda alla volta: nome o soprannome facoltativo, per chi si cerca aiuto, bisogno attuale. Il nome resta soltanto nello stato della schermata; non associarlo a statistiche, profili, report o richieste AI.
+Il box iniziale con nome e cognome e domande facilitate è fondamentale. Invitare a inserire i dati reali spiegando l’utilità per l’accompagnamento e la preparazione dei moduli; consentire l’inserimento successivo per esplorare l’orientamento, senza account. Non impostare il nickname come alternativa principale.
 
-Limitare l’intestazione a identità del servizio e Comune. Non accumulare badge, introduzioni, immagine grande, invito d’ingresso e liste di schede prima della prima domanda. Usare testo leggibile, spazi, pulsanti ampi con etichette esplicite, ritorno al passo precedente e possibilità di continuare senza nome.
+La bozza introduce un’identità condivisa nella sola sessione, senza rete o persistenza automatica. La persona può confermare l’uso del proprio nome completo nel campo del Progetto di Vita. Se sta aiutando qualcun altro, non viene proposta la sostituzione dei dati del beneficiario con quelli del caregiver. I campi del progetto continuano a usare il salvataggio preesistente quando modificati: questo flusso resta da verificare dopo recupero del modulo mancante.
 
-Conservare le funzioni esistenti, raggiungibili da “Tutte le funzioni”, evitando di mostrarle tutte nel primo ingresso. L’anteprima mostra tre voci di navigazione: Inizio, Tutte le funzioni, Aiuto. Questo è un obiettivo di usabilità da collaudare anche con persone con diverse esigenze; non una certificazione di accessibilità.
+Il Comune non è solo un filtro geografico: deve essere riconoscibile lungo il percorso, con riferimenti facilmente raggiungibili. La bozza aggiunge un riferimento comune alle schermate e collega i servizi del Comune, senza simulare operatori o presa in carico. Per Sarzana, telefono e indirizzo sono stati confrontati con le pagine ufficiali il 31 ottobre 2026:
+- https://www.comune.sarzana.sp.it/amministrazione/uffici/servizi-sociali-welfare.html
+- https://www.comune.sarzana.sp.it/punti-di-contatto/welfare.html
+
+Non accumulare menu e schede al primo ingresso. Privilegiare un’attività per volta, comandi leggibili e distanziati, caratteri ingrandibili e contrasti verificati. Le nuove azioni principali hanno altezza minima di 64 unità e testo di 20, come scelta di progetto, non come certificazione di conformità. Verificare reflow, zoom, screen reader, tastiera, interruttori e uso con difficoltà motorie; non presumere un unico profilo di disabilità.
+
+Tutte le funzioni restano nel perimetro: vanno rese raggiungibili con percorsi progressivi, evitando un grande elenco come navigazione principale. Le schermate secondarie dell’anteprima restano una rappresentazione in revisione e non una replica completa collaudata.
+
+Riferimenti di progettazione:
+- https://www.w3.org/WAI/tutorials/forms/
+- https://www.w3.org/TR/coga-usable/design_guide.html
+- https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum

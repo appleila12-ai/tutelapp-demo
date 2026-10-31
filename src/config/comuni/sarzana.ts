@@ -13,11 +13,11 @@ export const sarzana: ComuneConfig = {
 
   ente: "Servizi Sociali e Welfare",
   responsabile: "Area 1 · Servizi alla Persona",
-  indirizzo: "Piazza Don Ricchetti, 19038 Sarzana (SP)",
-  telefono: "0187 614456",
+  indirizzo: "Ex Tribunale, Piazza Don Dino Ricchetti, 19038 Sarzana (SP)",
+  telefono: "0187 614454",
   email: "servizi.sociali@comune.sarzana.sp.it",
   orari: "Lun–Ven 9:00–12:30 · Gio anche 14:30–16:30",
-  sitoWeb: "https://www.comune.sarzana.sp.it/servizi-sociali.html",
+  sitoWeb: "https://www.comune.sarzana.sp.it/amministrazione/uffici/servizi-sociali-welfare.html",
 
   logo: null,
 

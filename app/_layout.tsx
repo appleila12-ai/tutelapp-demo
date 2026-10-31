@@ -1,8 +1,9 @@
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
-import { LogBox, Platform } from "react-native";
+import { LogBox, Platform, View } from "react-native";
 
+import { ComuneReference } from "@/src/components/ComuneReference";
 import { useIconFonts } from "@/src/hooks/use-icon-fonts";
 import {
   caricaComuneSalvato,
@@ -47,6 +48,9 @@ export default function RootLayout() {
   return (
     // Nessun account né sincronizzazione: i dati restano sul dispositivo.
     // Cambiando Comune, l'app si ridisegna da capo con i dati del nuovo Comune.
-    <Stack key={comuneSlug} screenOptions={{ headerShown: false }} />
+    <View style={{ flex: 1 }}>
+      <Stack key={comuneSlug} screenOptions={{ headerShown: false }} />
+      <ComuneReference key={`reference-${comuneSlug}`} />
+    </View>
   );
 }

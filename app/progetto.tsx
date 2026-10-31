@@ -1,5 +1,5 @@
 // Pilastro 2 — Il mio Progetto di Vita (Costruttore di Desideri)
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -21,6 +21,7 @@ import * as Sharing from "expo-sharing";
 
 import { colors, fonts, radius, spacing } from "@/src/theme";
 import { comune } from "@/src/config/comune";
+import { getPersonaSession, nomePerModulo, subscribePersonaSession } from "@/src/state/personaSession";
 import { SezioniBar } from "@/src/components/SezioniBar";
 import { AttivaProgettoSection } from "@/src/components/AttivaProgettoSection";
 import {
@@ -49,6 +50,8 @@ export default function ProgettoDiVita() {
   const [progetto, setProgetto] = useState<Progetto>(EMPTY_PROGETTO);
   const [ready, setReady] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const personaSession = useSyncExternalStore(subscribePersonaSession, getPersonaSession, getPersonaSession);
+  const nomeProposto = personaSession.destinatario === "me" ? nomePerModulo() : "";
 
   useEffect(() => {
     loadProgetto().then((p) => {
@@ -188,15 +191,22 @@ export default function ProgettoDiVita() {
 
           {/* Nome facoltativo */}
           <View style={styles.nameCard}>
-            <Text style={styles.nameLabel}>IL TUO NOME (FACOLTATIVO)</Text>
+            <Text style={styles.nameLabel}>NOME E COGNOME DELLA PERSONA</Text>
             <TextInput
               value={progetto.nome}
               onChangeText={(nome) => setProgetto((p) => ({ ...p, nome }))}
-              placeholder="Es. Maria"
+              accessibilityLabel="Nome e cognome della persona a cui si riferisce il progetto"
+              placeholder="Nome e cognome"
               placeholderTextColor={colors.muted}
               style={styles.nameInput}
               testID="progetto-nome-input"
             />
+            {nomeProposto && progetto.nome !== nomeProposto ? (
+              <Pressable accessibilityRole="button" onPress={() => setProgetto((p) => ({ ...p, nome: nomeProposto }))} style={{ minHeight: 64, justifyContent: "center", paddingVertical: spacing.md }} testID="progetto-use-persona">
+                <Text style={{ fontSize: 20, lineHeight: 30, color: colors.onSurface }}>Usa {nomeProposto} per questo riepilogo</Text>
+              </Pressable>
+            ) : null}
+            <Text style={{ fontSize: 16, lineHeight: 24, color: colors.onSurfaceSecondary }}>Controlla i dati prima di creare il riepilogo. Se aiuti un’altra persona, inserisci qui i suoi dati, non i tuoi.</Text>
           </View>
 
           <Text style={styles.sectionLabel}>LE AREE DELLA TUA VITA</Text>
