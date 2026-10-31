@@ -3,6 +3,8 @@ import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-na
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import catalog from "@/src/content/benefici.json";
+import { comune } from "@/src/config/comune";
+import { SezioniBar } from "@/src/components/SezioniBar";
 import { colors, radius, spacing } from "@/src/theme";
 
 const filters = [
@@ -30,13 +32,20 @@ export function BenefitsScreen({ inail = false }: { inail?: boolean }) {
         <Pressable onPress={() => router.back()} accessibilityRole="button" style={styles.button}>
           <Text style={styles.buttonText}>Indietro</Text>
         </Pressable>
-        <Text style={styles.kicker}>TUTELAPP · ORIENTARSI INSIEME</Text>
+        <Text style={styles.kicker}>TUTELAPP · {comune.nome} · DIRITTI E AGEVOLAZIONI</Text>
         <Text style={styles.title} accessibilityRole="header">{inail ? "Invalidità INAIL: diritti, bonus e agevolazioni" : "Diritti, bonus e agevolazioni"}</Text>
         <Text style={styles.body}>{catalog.notice}</Text>
+        <Text style={styles.note}>Sei nell’app del territorio selezionato. Queste schede descrivono tutele nazionali; servizi e contributi locali richiedono una verifica specifica.</Text>
         <View style={styles.notice}><Text style={styles.body}>Non serve un account e non devi caricare referti. I filtri di questa pagina restano nella schermata. Solo aprendo una fonte visiti un sito esterno.</Text></View>
         <Pressable onPress={() => router.push(inail ? "/benefici" : "/inail")} accessibilityRole="button" style={styles.button}>
-          <Text style={styles.buttonText}>{inail ? "Apri il catalogo generale" : "Apri il percorso INAIL"}</Text>
+          <Text style={styles.buttonText}>{inail ? "Torna a tutti i diritti e le agevolazioni" : "Ho un riconoscimento INAIL: cosa verificare?"}</Text>
         </Pressable>
+        <Pressable onPress={() => router.push("/contatti")} accessibilityRole="button" style={styles.button}>
+          <Text style={styles.buttonText}>Supporto nel territorio: {comune.nome}</Text>
+        </Pressable>
+        {!inail && <Pressable onPress={() => router.push("/valutazione")} accessibilityRole="button" style={styles.button}>
+          <Text style={styles.buttonText}>Orientamento su invalidità civile e Legge 104</Text>
+        </Pressable>}
         <Text style={styles.note}>Un unico catalogo: la vista INAIL richiama le stesse schede, senza duplicare i benefici.</Text>
         <View style={styles.filters}>{filters.map((f) => (
           <Pressable key={f.id} onPress={() => { setFilter(f.id); setOpen(null); }} accessibilityRole="button" accessibilityState={{ selected: filter === f.id }} style={[styles.button, filter === f.id && styles.selected]} testID={`benefit-filter-${f.id}`}>
@@ -67,6 +76,7 @@ export function BenefitsScreen({ inail = false }: { inail?: boolean }) {
           </View>
         ))}
         <Text style={styles.note}>Le condizioni possono cambiare. La data indica la consultazione delle fonti, non un accertamento personale. La guida fiscale indicata è un’edizione precedente: prima di una spesa verifica le istruzioni fiscali correnti. Le etichette non sono un esito di ammissibilità.</Text>
+        <SezioniBar />
       </ScrollView>
     </SafeAreaView>
   );

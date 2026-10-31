@@ -465,8 +465,8 @@ export default function Tracker() {
         </Text>
         <Text style={styles.introBody}>
           Segui la tua pratica come segui un pacco in arrivo. Segna le tappe
-          completate, aggiungi date e note: restano salvate sul tuo telefono e,
-          se hai fatto l&apos;accesso, nel tuo account.
+          completate, aggiungi date e note: vengono salvate su questo dispositivo,
+          senza account.
         </Text>
 
         {/* Timeline */}

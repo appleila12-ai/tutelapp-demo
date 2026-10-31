@@ -29,21 +29,13 @@ const MOMENTI: { id: Exclude<Momento, null>; label: string }[] = [
   { id: "diritti", label: "Voglio capire i miei diritti" },
 ];
 
-// Le 4 sezioni principali — raggiungibili dopo la domanda
+// Sezioni dell’app esistente, nel contesto del Comune scelto
 const SEZIONI = [
-  {
-    id: "inail",
-    icon: "briefcase-outline" as const,
-    title: "Invalidità INAIL: diritti e agevolazioni",
-    sub: "Prestazioni e altri benefici: cosa verificare",
-    route: "/inail",
-    color: topics.lavoro,
-  },
   {
     id: "benefici",
     icon: "list-outline" as const,
     title: "Catalogo diritti e agevolazioni",
-    sub: "Schede comuni, con requisiti distinti",
+    sub: "Anche con riconoscimento INAIL: requisiti da verificare",
     route: "/benefici",
     color: topics.percorso,
   },
@@ -122,10 +114,8 @@ export default function Hub() {
     registra("momento", m);
     if (m === "diagnosi") return router.push("/percorso");
     if (m === "iter") return router.push("/tracker");
-    // Diritti: ultimo risultato salvato se esiste, altrimenti il questionario
-    const list = await listReports();
-    if (list.length > 0) router.push(`/risultati/${list[0].id}`);
-    else router.push("/valutazione");
+    // Il catalogo è esplorabile anche senza questionario o riconoscimento INPS.
+    router.push("/benefici");
   };
 
   const pickRegion = (r: string) => {

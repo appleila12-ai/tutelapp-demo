@@ -68,6 +68,7 @@ export function QuestionarioValutazione() {
   const [verbale, setVerbale] = useState<VerbaleOption | null>(null);
   const [cert, setCert] = useState<CertOption | null>(null);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
   const [mostraMancanti, setMostraMancanti] = useState(false);
 
   // Il certificato serve solo a chi il verbale non ce l'ha (o non lo sa)
@@ -94,6 +95,7 @@ export function QuestionarioValutazione() {
       if (mancanti[0]) vaiA(mancanti[0]);
       return;
     }
+    setSaveError("");
     setSaving(true);
     const answers: Answers = {
       who,
@@ -102,16 +104,21 @@ export function QuestionarioValutazione() {
       verbale,
       ...(serveCert && cert ? { cert } : {}),
     };
-    const report: Report = await saveReport(answers);
-    // Statistiche anonime: solo le categorie scelte, nessun dato personale
-    registra("questionario", "completato");
-    registra("chi", who);
-    registra("quando", when);
-    registra("lavoro", work);
-    registra("verbale", verbale);
-    if (serveCert && cert) registra("certificato", cert);
-    setSaving(false);
-    router.push(`/risultati/${report.id}` as any);
+    try {
+      const report: Report = await saveReport(answers);
+      // Invii statistici esistenti: verificare la preferenza nel modulo client.
+      registra("questionario", "completato");
+      registra("chi", who);
+      registra("quando", when);
+      registra("lavoro", work);
+      registra("verbale", verbale);
+      if (serveCert && cert) registra("certificato", cert);
+      router.push(`/risultati/${report.id}` as any);
+    } catch {
+      setSaveError("Non è stato possibile completare il percorso. Le risposte restano in questa schermata: puoi riprovare o esplorare le schede senza salvarle.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   /** Titolo della domanda, con avviso se manca la risposta. */
@@ -150,6 +157,16 @@ export function QuestionarioValutazione() {
 
   return (
     <View testID="questionario-valutazione">
+      <View style={styles.explain} testID="wizard-inail-entry">
+        <Text style={styles.explainTitle}>Hai un riconoscimento INAIL?</Text>
+        <Text style={styles.explainText}>Puoi esplorare prestazioni e altre agevolazioni dentro TutelApp, senza compilare questo questionario. Il riconoscimento INAIL non equivale automaticamente a invalidità civile o Legge 104.</Text>
+        <Pressable onPress={() => router.push("/inail")} accessibilityRole="button" style={styles.optionCard} testID="wizard-open-inail">
+          <Text style={styles.explainTitle}>Vedi cosa verificare con un riconoscimento INAIL</Text>
+        </Pressable>
+        <Pressable onPress={() => router.push("/benefici")} accessibilityRole="button" style={styles.optionCard} testID="wizard-open-catalog">
+          <Text style={styles.explainTitle}>Esplora tutti i diritti senza rispondere</Text>
+        </Pressable>
+      </View>
       {/* 1 · La diagnosi */}
       <View testID="step-1">
         <View style={styles.stepIconWrap}>
@@ -231,6 +248,7 @@ export function QuestionarioValutazione() {
         )}
       </View>
 
+      {saveError ? <Text style={styles.missingSummary} accessibilityRole="alert" testID="wizard-save-error">{saveError}</Text> : null}
       {/* CTA finale: sempre attivo, dice cosa manca */}
       <Text style={styles.progress} testID="wizard-progress">
         {mancanti.length === 0
